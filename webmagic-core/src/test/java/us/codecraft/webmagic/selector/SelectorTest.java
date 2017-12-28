@@ -11,13 +11,15 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class SelectorTest {
 
-    private String html = "<div><a href='http://whatever.com/aaa'></a></div><div><a href='http://whatever.com/bbb'></a></div>";
+    private String html = "<div><a href='http://whatever.com/aaa'></a></div>"
+    		+ "<div><a href='http://whatever.com/bbb'></a></div>";
 
     @Test
     public void testChain() throws Exception {
         Html selectable = new Html(html);
         List<String> linksWithoutChain = selectable.links().all();
-        Selectable xpath = selectable.xpath("//div");
+        Selectable xpath = selectable.xpath("//div/*");
+        String content = xpath.get();
         List<String> linksWithChainFirstCall = xpath.links().all();
         List<String> linksWithChainSecondCall = xpath.links().all();
         assertThat(linksWithoutChain).hasSameSizeAs(linksWithChainFirstCall);

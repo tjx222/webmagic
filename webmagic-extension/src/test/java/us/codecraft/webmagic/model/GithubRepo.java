@@ -13,7 +13,7 @@ import us.codecraft.webmagic.model.annotation.TargetUrl;
 @HelpUrl({"https://github.com/\\w+\\?tab=repositories", "https://github.com/\\w+", "https://github.com/explore/*"})
 public class GithubRepo extends BaseRepo{
 
-    @ExtractBy("//ul[@class='pagehead-actions']/li[2]//a[@class='social-count']/text()")
+	@ExtractBy("//ul[@class='pagehead-actions']/li[2]//a[@class='social-count']/text()")
     private int fork;
 
     public static void main(String[] args) {

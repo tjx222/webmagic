@@ -154,7 +154,7 @@ public class HttpClientDownloader extends AbstractDownloader {
                 .setConnectionRequestTimeout(site.getTimeOut())
                 .setSocketTimeout(site.getTimeOut())
                 .setConnectTimeout(site.getTimeOut())
-                .setCookieSpec(CookieSpecs.BEST_MATCH);
+                .setCookieSpec(CookieSpecs.DEFAULT);
         if (proxy !=null) {
 			requestConfigBuilder.setProxy(proxy);
 			request.putExtra(Request.PROXY, proxy);
@@ -188,30 +188,29 @@ public class HttpClientDownloader extends AbstractDownloader {
     }
 
     protected Page handleResponse(Request request, String charset, HttpResponse httpResponse, Task task) throws IOException {
-        String content = getContent(charset, httpResponse);
+    	byte[] contentBytes = IOUtils.toByteArray(httpResponse.getEntity().getContent());
+    	if (charset == null) {
+    		 charset = getHtmlCharset(httpResponse, contentBytes);
+    	 }
+    	String content = getContent(charset, contentBytes);
         Page page = new Page();
         page.setRawText(content);
+        page.setRawContent(contentBytes);
         page.setUrl(new PlainText(request.getUrl()));
         page.setRequest(request);
         page.setStatusCode(httpResponse.getStatusLine().getStatusCode());
         return page;
     }
 
-    protected String getContent(String charset, HttpResponse httpResponse) throws IOException {
+    protected String getContent(String charset, byte[] contentBytes) throws IOException {
         if (charset == null) {
-            byte[] contentBytes = IOUtils.toByteArray(httpResponse.getEntity().getContent());
-            String htmlCharset = getHtmlCharset(httpResponse, contentBytes);
-            if (htmlCharset != null) {
-                return new String(contentBytes, htmlCharset);
-            } else {
-                logger.warn("Charset autodetect failed, use {} as charset. Please specify charset in Site.setCharset()", Charset.defaultCharset());
-                return new String(contentBytes);
-            }
+              logger.warn("Charset autodetect failed, use {} as charset. Please specify charset in Site.setCharset()", Charset.defaultCharset());
+              return new String(contentBytes);
         } else {
-            return IOUtils.toString(httpResponse.getEntity().getContent(), charset);
+            return IOUtils.toString(contentBytes, charset);
         }
     }
-
+    
     protected String getHtmlCharset(HttpResponse httpResponse, byte[] contentBytes) throws IOException {
         String charset;
         // charset

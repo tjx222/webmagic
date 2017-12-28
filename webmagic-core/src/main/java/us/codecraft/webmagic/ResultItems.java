@@ -1,6 +1,5 @@
 package us.codecraft.webmagic;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -15,7 +14,7 @@ import java.util.Map;
  */
 public class ResultItems {
 
-    private Map<String, Object> fields = new LinkedHashMap<String, Object>();
+    private final Map<String, Object> fields = new LinkedHashMap<String, Object>();
 
     private Request request;
 

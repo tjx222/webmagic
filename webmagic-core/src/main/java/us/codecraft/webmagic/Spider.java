@@ -208,7 +208,8 @@ public class Spider implements Runnable, Task {
      * @see #addPipeline(us.codecraft.webmagic.pipeline.Pipeline)
      * @deprecated
      */
-    public Spider pipeline(Pipeline pipeline) {
+    @Deprecated
+	public Spider pipeline(Pipeline pipeline) {
         return addPipeline(pipeline);
     }
 
@@ -258,7 +259,8 @@ public class Spider implements Runnable, Task {
      * @see #setDownloader(us.codecraft.webmagic.downloader.Downloader)
      * @deprecated
      */
-    public Spider downloader(Downloader downloader) {
+    @Deprecated
+	public Spider downloader(Downloader downloader) {
         return setDownloader(downloader);
     }
 
@@ -487,7 +489,7 @@ public class Spider implements Runnable, Task {
         for (Request request : UrlUtils.convertToRequests(urls)) {
             addRequest(request);
         }
-        CollectorPipeline collectorPipeline = getCollectorPipeline();
+        CollectorPipeline<T> collectorPipeline = getCollectorPipeline();
         pipelines.add(collectorPipeline);
         run();
         spawnUrl = true;
@@ -495,8 +497,8 @@ public class Spider implements Runnable, Task {
         return collectorPipeline.getCollected();
     }
 
-    protected CollectorPipeline getCollectorPipeline() {
-        return new ResultItemsCollectorPipeline();
+    protected <T> CollectorPipeline<T> getCollectorPipeline() {
+        return (CollectorPipeline<T>) new ResultItemsCollectorPipeline();
     }
 
     public <T> T get(String url) {

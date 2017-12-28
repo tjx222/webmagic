@@ -1,16 +1,17 @@
 package us.codecraft.webmagic.model;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.IOException;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
 import us.codecraft.webmagic.selector.PlainText;
-
-import java.io.IOException;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author code4crafter@gmail.com

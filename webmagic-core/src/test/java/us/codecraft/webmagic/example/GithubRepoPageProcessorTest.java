@@ -27,4 +27,5 @@ public class GithubRepoPageProcessorTest {
             }
         }).setDownloader(new MockGithubDownloader()).test("https://github.com/code4craft/webmagic");
     }
+    
 }
